@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>上实源商家端</title>
+    <link href="src/css/mui.min.css" rel="stylesheet"/>
+    <link href="src/css/app.css" rel="stylesheet"/>
+</head>
+<body>
+	<header id="header" class="mui-bar mui-bar-nav">
+		<h1 class="mui-title">订单管理</h1>
+		<span class="rightBtn">
+			<a id="searchBtnOrder" class="search"></a>
+			<!--<a id="addProductBtn" class="addProduct">发布产品</a>-->
+		</span>
+	</header>
+	<div class="mui-content">
+		<!--<div class="loading">
+			<aside>正在加载...</aside>
+		</div>-->
+	</div>
+	<nav class="mui-bar mui-bar-tab">
+			<a id="defaultTab" class="mui-tab-item mui-active" data-wid="viewgroup" href="src/barItem/home.html">
+				<span class="mui-icon barItemHome"></span>
+				<span class="mui-tab-label">订单管理</span>
+			</a>
+			<a class="mui-tab-item" href="src/barItem/product.html">
+				<span class="mui-icon barItemProduct"></span>
+				<span class="mui-tab-label">产品管理</span>
+			</a>
+			<a class="mui-tab-item" href="src/barItem/settlement.html"> 
+				<span class="mui-icon barItemSettlement"></span>
+				<span class="mui-tab-label">结算</span>
+			</a>
+			<a class="mui-tab-item" href="src/barItem/mine.html">
+				<span class="mui-icon barItemMine"></span>
+				<span class="mui-tab-label">我的</span>
+			</a>
+		</nav>
+	<script src="src/js/mui.min.js"></script>
+	<script>
+			mui.init({
+				statusBarBackground: '#ffffff',
+				preloadPages: [{
+			        url: 'src/barItem/product.html',
+			        id: 'src/barItem/product.html',
+			        extras: {}, //自定义扩展参数，在该页面获取方式：varweb=plus.webview.currentWebview;web.valueArray  
+			        subpages: [] //预加载页面的子页面  
+			    }]
+			});
+			var subpages = ['src/barItem/home.html', 'src/barItem/product.html', 'src/barItem/settlement.html', 'src/barItem/mine.html'];
+			var subpage_style = {
+				top: '45px',
+				bottom: '52px'
+			};
+			var aniShow = "pop-in";
+			var isInTransition = false;
+			var _self;
+			//只有ios支持的功能需要在Android平台隐藏；
+			if(mui.os.android) {
+				var list = document.querySelectorAll('.ios-only');
+				if(list) {
+					for(var i = 0; i < list.length; i++) {
+						list[i].style.display = 'none';
+					}
+				}
+				//Android平台暂时使用slide-in-right动画
+				if(parseFloat(mui.os.version) < 4.4) {
+					aniShow = "slide-in-right";
+				}
+			}
+			
+			mui.plusReady(function() {
+				plus.navigator.setStatusBarBackground("#FFFFFF");
+				//读取本地存储，检查是否为首次启动
+				var showGuide = plus.storage.getItem("lauchFlag");
+				//仅支持竖屏显示
+				plus.screen.lockOrientation("portrait-primary");
+				if(showGuide) {
+					//有值，说明已经显示过了，无需显示；
+					//关闭splash页面；
+					plus.navigator.closeSplashscreen();
+					plus.navigator.setFullscreen(false);
+				} else {
+					//显示启动导航
+					mui.openWindow({
+						id: 'guide',
+						url: 'src/guide.html',
+						styles: {
+							popGesture: "none"
+						},
+						show: {
+							aniShow: 'none'
+						},
+						waiting: {
+							autoShow: false
+						}
+					});
+				}
+				//创建子页面，首个选项卡页面显示，其它均隐藏；
+				var self = plus.webview.currentWebview();
+				for (var i = 0; i < 4; i++) {
+					var temp = {};
+					var sub = plus.webview.create(subpages[i], subpages[i], subpage_style);
+					if (i > 0) {
+						sub.hide();
+					}else{
+						temp[subpages[i]] = "true";
+						mui.extend(aniShow,temp);
+					}
+					self.append(sub);
+				}
+			});
+			
+			//当前激活选项
+			var activeTab = subpages[3];
+			var header = document.getElementById("header");
+			 //选项卡点击事件
+			mui('.mui-bar-tab').on('tap', 'a', function(e) {
+				var id = this.getAttribute("data-wid");
+				
+				var targetTab = this.getAttribute('href');
+				if (targetTab == activeTab) {
+					return;
+				}
+				var extras = {};
+				if(id && id == "viewgroup"){//强制启用截屏
+					extras.acceleration = "capture";
+				}
+				
+				
+				//显示目标选项卡
+				//若为iOS平台或非首次显示，则直接显示
+				if(mui.os.ios||aniShow[targetTab]){
+					plus.webview.show(targetTab);
+				}else{
+					//否则，使用fade-in动画，且保存变量
+					var temp = {};
+					temp[targetTab] = "true";
+					mui.extend(aniShow,temp);
+					
+					plus.webview.show(targetTab,"fade-in",1000);
+				}
+				//隐藏当前;
+				plus.webview.hide(activeTab);
+				//更改当前活跃的选项卡
+				activeTab = targetTab;
+				//更换header
+				if(targetTab=='src/barItem/home.html'){//home
+					header.innerHTML = 	'<h1 class="mui-title">订单管理</h1>'+
+										'<span class="rightBtn">'+
+											'<a id="searchBtnOrder" class="search"></a>'+
+										'</span>';
+				}
+				if(targetTab=='src/barItem/product.html'){//产品管理
+					header.innerHTML =  '<span class="leftBtn">'+
+											'<a id="searchBtnProduct" class="search"></a>'+
+										'</span>'+	
+										'<h1 class="mui-title">产品管理</h1>'+
+										'<span class="rightBtn">'+
+											'<a id="addProductBtn" class="addProduct">发布产品</a>'+
+										'</span>';
+				}
+				if(targetTab=='src/barItem/settlement.html'){//结算
+					header.innerHTML = '<h1 class="mui-title">结算</h1>';
+				}
+				if(targetTab=='src/barItem/mine.html'){//小店
+					header.innerHTML = '<h1 class="mui-title">小店</h1>';
+				}
+			});
+			 //自定义事件，模拟点击“首页选项卡”
+			document.addEventListener('gohome', function() {
+				var defaultTab = document.getElementById("defaultTab");
+				//模拟首页点击
+				mui.trigger(defaultTab, 'tap');
+				//切换选项卡高亮
+				var current = document.querySelector(".mui-bar-tab>.mui-tab-item.mui-active");
+				if (defaultTab !== current) {
+					current.classList.remove('mui-active');
+					defaultTab.classList.add('mui-active');
+				}
+			});
+			
+
+			var _toast = false;
+
+			mui.back = function() {
+				if(!_toast || !_toast.isVisible()) {
+					_toast = mui.toast('再按一次返回键退出<br>点此可&nbsp;<span style="border-bottom:1px solid #fff" onclick="openFeedback();">反馈意见</span>', {
+						duration: 'long',
+						type: 'div'
+					});
+				} else {
+					plus.runtime.quit();
+				}
+			}
+
+			/**
+			 * 退出时提醒用户参加问题反馈
+			 */
+			function openFeedback() {
+				plus.nativeUI.showWaiting();
+				var _p = plus.os.name === 'Android' ? 'a' : plus.os.name === 'iOS' ? 'i' : '';
+				//TODO：这里使用的是FeedBack云地址，开发者也可以替换为本地页面地址
+				var url = 'http://stream.dcloud.net.cn/wap2app/feedback?p=' + _p;
+				url += "&plus_version=" + plus.runtime.innerVersion;
+				url += "&vendor=" + plus.device.vendor;
+				url += "&md=" + plus.device.model;
+				/*****开发者需修改的部分   开始*****/
+				url += "&app_name=HelloMUI&app_vendor=DCloud";
+				//如有本地关于页面，则填写关于页面的路径
+				//注意：需要_www/前缀
+				url += "&about=_www/examples/info.html";
+				/*****开发者需修改的部分   结束*****/
+
+				var feedbackWebview = plus.webview.create(url, "__W2A_FEEDBACK");
+				feedbackWebview.addEventListener('titleUpdate', function() {
+					plus.nativeUI.closeWaiting();
+					feedbackWebview.show('slide-in-right', 300);
+				});
+			}
+			
+			
+			
+			mui("body").on('tap','#searchBtnOrder',function(){
+			 	mui.openWindow({
+				    url: 'src/search/orderSearch.html', 
+   					id:'orderSearch',
+				    show: {
+						aniShow: 'pop-in'
+					},
+					styles: {
+						popGesture: 'close'
+					},
+					waiting: {
+						autoShow: false
+					}
+				});
+				return false;
+			})
+			
+			mui("body").on('tap','#searchBtnProduct',function(){
+			 	mui.openWindow({
+				    url: 'src/search/productSearch.html', 
+   					id:'productSearch',
+				    show: {
+						aniShow: 'pop-in'
+					},
+					styles: {
+						popGesture: 'close'
+					},
+					waiting: {
+						autoShow: false
+					}
+				});
+				return false;
+			})
+			
+			mui("body").on('tap','#addProductBtn',function(){
+			 	mui.openWindow({
+				    url: 'src/product/addProduct.html', 
+   					id:'addProduct',
+				    show: {
+						aniShow: 'pop-in'
+					},
+					styles: {
+						popGesture: 'close'
+					},
+					waiting: {
+						autoShow: false
+					}
+				});
+				return false;
+			})
+			
+	</script>
+</body>
+</html>

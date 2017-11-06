@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>发布产品</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" href="../css/app.css">
+		<link href="../css/mui.picker.min.css" rel="stylesheet" />
+		<link href="../css/mui.poppicker.css" rel="stylesheet" />
+		<link href="../css/mui.previewimage.css" rel="stylesheet" />
+		
+		<style>
+			body,
+			.mui-content{
+				background: #EEEEEE;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back backBtn"></a>
+			<h1 class="mui-title">发布产品</h1>
+			<span class="rightBtn">
+				<a id="submitBtn" class="addProduct">提交</a>
+			</span>
+		</header>
+		<div id="productDetail" class="mui-content">
+			<div class="imgGroup">
+				<div class="mainImg">
+					<em class="lebal">商品主图：</em>
+					<div class="img">
+						<!--<span class="mainImgBox">
+							<img src="../images/001.png" alt="" data-preview-src="" data-preview-group="0"/>
+							<em class="delImgBtn">
+								<img src="../images/icon/014.png" alt="" />
+							</em>
+						</span>-->
+						<span id="addMainImgBtn">
+							<img src="../images/icon/012.png"/>
+						</span>
+						<em class="error">请上传一张商品主图</em>
+					</div>
+				</div>
+				<div class="subImg">
+					<em class="lebal">商品幅图（轮播图）：</em>
+					<div class="list">
+						<!--<span class="subImgBox">
+							<img src="../images/001.png" alt="" data-preview-src="" data-preview-group="1"/>
+							<em class="delImgBtn">
+								<img src="../images/icon/014.png" alt="" />
+							</em>
+						</span>-->
+						<span id="addSubImgBtn">
+							<img src="../images/icon/011.png" alt="" />
+						</span>
+						<em class="error">至少上传一张商品幅图</em>
+					</div>
+				</div>
+				<div class="addVideo">
+					<em class="lebal">添加短视频：</em>
+					<div class="img">
+						<span id="addVideoBtn">
+							<img src="../images/icon/011.png" alt="" />
+						</span>
+					</div>
+				</div>
+			</div>
+			<div class="txtGroup">
+				<ul class="formList">
+					<li class="item">
+						<em class="lebal">商品名称:</em>
+						<div class="input">
+							<div>
+								<input id="productName" type="text" placeholder="请输入商品标题"/>
+								<em class="error"></em>
+							</div>
+						</div>
+					</li>
+					<li class="item">
+						<em class="lebal">商品描述:</em>
+						<div class="input">
+							<div>
+								<input id="productSubName" type="text" placeholder="请输入商品副标题"/>
+								<em class="error"></em>
+							</div>
+						</div>
+					</li>
+					<li class="item">
+						<em class="lebal">商品类目:</em>
+						<div id="showCategory" class="input selectPicker">
+							<p class="txt">
+								<em id="showCategoryTxt">请选择</em>
+								<input id="showCategoryVal" type="hidden" value=""/>
+								<em class="error"></em>
+							</p>
+						</div>
+					</li>
+					<li class="item">
+						<em class="lebal">产地:</em>
+						<div id="showCityPicker" class="input selectPicker">
+							<p class="txt">
+								<em id="cityTxt">请选择</em>
+								<input id="provinceVal" type="hidden" value=""/>
+								<em class="error"></em>
+								<input id="cityVal" type="hidden" value=""/>
+								<input id="countyVal" type="hidden" value=""/>
+							</p>
+						</div>
+					</li>
+					<li class="item">
+						<em class="lebal">商品价格:</em>
+						<div class="input">
+							<div>
+								<input id="productPrice" type="number" placeholder="请输入商品单价"/>
+								<em class="error"></em>
+							</div>&nbsp;&nbsp;&nbsp;&nbsp;元
+						</div>
+					</li>
+					<li class="item specBox">
+						<em class="lebal">规格:</em>
+						<div class="input">
+							<div>
+								<input id="specNum" type="number" placeholder="请输入数量"  onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
+                  onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'0')}else{this.value=this.value.replace(/\D/g,'')}"/>
+								<em class="error"></em>
+							</div>
+							<p id="showSpec" class="txt">
+								<em id="showSpecTxt">KG</em>
+								<input id="showSpecVal" type="hidden" value=""/>
+							</p>
+							<p id="showUnit" class="txt">
+								<em id="showUnitTxt">盒</em>
+								<input id="showUnitVal" type="hidden" value=""/>
+							</p>
+						</div>
+					</li>
+					<li class="item">
+						<em class="lebal">商品库存数量:</em>
+						<div class="input">
+							<div>
+								<input id="stockNumber" type="number" placeholder="请输入库存数量"  onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
+                  onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'0')}else{this.value=this.value.replace(/\D/g,'')}"/>
+								<em class="error"></em>
+							</div>
+						</div>
+					</li>
+					<li class="item specBox">
+						<em class="lebal">邮费:</em>
+						<div class="input">
+							<div id="postageBox">
+								<input id="postageVal" type="number" placeholder="请输入商品运费"/>
+								<em class="error"></em>
+							</div>
+							<em class="checkbox">
+								<input id="freePostage" name="freePostage" type="checkbox" value="0"/> 包邮
+							</em>
+						</div>
+					</li>
+				</ul>
+				<!--条件包邮-->
+				<ul id="conditionPostageBox" class="formList">
+					<li id="conditionPostage" class="item">
+						<em class="lebal">条件包邮:</em>
+						<div class="input">
+							<div class="switchBtn">
+								<div id="conditionPostageBtn" class="mui-switch mui-switch-mini">
+									<div class="mui-switch-handle"></div>
+								</div>
+							</div>
+							<input id="conditionPostagevVal" type="hidden" value="0" />
+						</div>
+					</li>
+					<li id="byPostageCondition" class="item" style="display: none;">
+						<em class="lebal">选择条件:</em>
+						<div id="showPostage" class="input selectPicker">
+							<p class="txt">
+								<em id="showPostageTxt">请选择</em>
+								<input id="showPostageVal" type="hidden" value=""/>
+								<em class="error"></em>
+							</p>
+						</div>
+					</li>
+				</ul>
+				<ul id="conditionBox" class="formList" style="display: none;">
+					<li id="byNumberPostage" class="item" style="display: none;">
+						<em class="lebal">满:</em>
+						<div class="input">
+							<div>
+								<input id="byNumberPostageVal" type="number" placeholder="请输入数量"  onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
+                  onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'0')}else{this.value=this.value.replace(/\D/g,'')}"/>
+								<em class="error"></em>
+							</div>&nbsp;&nbsp;&nbsp;&nbsp;件包邮
+						</div>
+					</li>
+					<li id="byPricePostage" class="item" style="display: none;">
+						<em class="lebal">满:</em>
+						<div class="input">
+							<div>
+								<input id="byPricePostageVal" type="number" placeholder="请输入钱数"/>
+								<em class="error"></em>
+							</div>&nbsp;&nbsp;&nbsp;&nbsp;钱包邮
+						</div>
+					</li>
+					<li id="byDistrictPostage" class="item" style="display: none;">
+						<em class="lebal">选择不包邮地区:</em>
+						<div id="showNotPostageDistrict" class="input selectPicker">
+							<p class="txt">
+								<em id="showNotPostageDistrictTxt">请选择</em>
+								<input id="showNotPostageDistrictVal" type="hidden" value=""/>
+								<em class="error"></em>
+							</p>
+						</div>
+					</li>
+				</ul>
+				<ul id="reserve" class="formList" style="display: none;">
+					<li class="item">
+						<em class="lebal">预定产品数量:</em>
+						<div class="input">
+							<div>
+								<input id="reserveProductNum" type="number" placeholder="请输入预定产品数量"  onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
+                  onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'0')}else{this.value=this.value.replace(/\D/g,'')}"/>
+								<em class="error"></em>
+							</div>
+						</div>
+					</li>
+					<li class="item">
+						<em class="lebal">发货日期:</em>
+						<div id="timeBtn"  data-options='{"value":"2017-10-30 16:10","beginYear":2010,"endYear":2020}'  class="input selectPicker">
+							<p class="txt">
+								<em id="timeBtnTxt">请选择</em>
+								<input id="reserveTime" type="hidden" value=""/>
+								<em class="error"></em>
+							</p>
+						</div>
+					</li>
+				</ul>
+			</div>
+			
+			<div class="publicationType">
+				<p>
+					<input id="" name="productType" type="radio" value="0"  checked="checked"/>
+					普通产品
+				</p>
+				<p>
+					<input id="" name="productType" type="radio" value="1"/>
+					预定产品
+				</p>
+			</div>
+		</div>
+		<!--不包邮地区选择-->
+		<div id="NotPostageDistrict" class="bottomPopover mui-popover mui-popover-action mui-popover-bottom">
+			<div class="popoverBox">
+				<div class="topTitle">
+					<button class="cancelPopover">取消</button>
+					<button class="okPopover">完成</button>
+				</div>
+				<div class="contentBox">
+					<div class="mui-scroll-wrapper">
+						<div class="mui-scroll">
+							<ul class="districtList">
+								<li class="item">
+									<input type="checkbox" name="district" id="0001" value="新疆"/>
+									<p>
+										<em class="txt">新疆</em>
+										<em class="states"></em>
+									</p>
+								</li>
+								<li class="item">
+									<input type="checkbox" name="district" id="0002" value="西藏"/>
+									<p>
+										<em class="txt">西藏</em>
+										<em class="states"></em>
+									</p>
+								</li>
+								<li class="item">
+									<input type="checkbox" name="district" id="0003" value="海南"/>
+									<p>
+										<em class="txt">海南</em>
+										<em class="states"></em>
+									</p>
+								</li>
+								<li class="item">
+									<input type="checkbox" name="district" id="0003" value="港澳台"/>
+									<p>
+										<em class="txt">港澳台</em>
+										<em class="states"></em>
+									</p>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/rem.js"></script>
+		<script src="../js/jquery.js"></script>
+		<script src="../js/mui.picker.min.js"></script>
+		<script src="../js/mui.poppicker.js"></script>
+		<script src="../js/baseData.js"></script>
+		<script src="../js/city.data-3.js"></script>
+		<script src="../js/validate.js"></script>
+		<script src="../js/mui.zoom.js"></script>
+		<script src="../js/mui.previewimage.js"></script>
+		<script>
+			mui.previewImage();
+			
+			(function($, doc) {
+				$.init();
+				var result = $('#timeBtnTxt')[0];
+				var btn = $('#timeBtn')[0];
+				var reserveTime = doc.getElementById('reserveTime');
+				
+				btn.addEventListener('tap', function() {
+					var _self = this;
+					
+					var optionsJson = this.getAttribute('data-options') || '{}';
+					var options = JSON.parse(optionsJson);
+					var id = this.getAttribute('id');
+					/*
+					 * 首次显示时实例化组件
+					 * 示例为了简洁，将 options 放在了按钮的 dom 上
+					 * 也可以直接通过代码声明 optinos 用于实例化 DtPicker
+					 */
+					var options = JSON.parse(optionsJson);
+					var tody=new Date();//获取当前时间
+					var now=new Date(tody.setDate(tody.getDate()+1));//添加一天
+					//开始时间
+					options.beginYear=now.getFullYear();
+					options.beginMonth=now.getMonth()+1;
+					options.beginDay=now.getDate();
+					options.beginHours=now.getHours();
+					options.beginMinutes = now.getMinutes();
+					//结束时间
+					options.endYear = now.getFullYear()+1;
+					options.endMonth=now.getMonth()+1;
+					options.endDay=now.getDate();
+					options.endHours=now.getHours();
+					options.endMinutes = now.getMinutes();
+					
+					_self.picker = new mui.DtPicker(options);
+					
+					document.activeElement.blur();
+					setTimeout(function(){
+						_self.picker.show(function(rs) {
+							console.log(rs.text)
+							
+							result.innerText =  rs.text;
+							var dateStr = get_unix_time(rs.text);
+							reserveTime.setAttribute('value',dateStr);
+							reserveTime.nextSibling.nextSibling.style.display="none";
+							
+							_self.picker.dispose();
+							_self.picker = null;
+						});
+					},300);
+				}, false);
+				
+				
+				$.ready(function() {
+					/**
+					 * 获取对象属性的值
+					 * 主要用于过滤三级联动中，可能出现的最低级的数据不存在的情况，实际开发中需要注意这一点；
+					 * @param {Object} obj 对象
+					 * @param {String} param 属性名
+					 */
+					var _getParam = function(obj, param) {
+						return obj[param] || '';
+					};
+					//类目
+					var categoryPicker = new $.PopPicker();
+					categoryPicker.setData(category);
+					var showCategoryPickerButton = doc.getElementById('showCategory');
+					var categoryResult = doc.getElementById('showCategoryTxt');
+					var showCategoryVal = doc.getElementById('showCategoryVal');
+					showCategoryPickerButton.addEventListener('tap', function(event) {
+						document.activeElement.blur();
+						setTimeout(function() {
+							categoryPicker.show(function(items) {
+								categoryResult.innerText =  _getParam(items[0], 'text');
+								showCategoryVal.setAttribute('value',_getParam(items[0], 'value'));
+								console.log(showCategoryVal.nextSibling.nextSibling)
+								showCategoryVal.nextSibling.nextSibling.style.display="none";
+								//返回 false 可以阻止选择框的关闭
+								//return false;
+							});
+						}, 300);
+					}, false);
+					//规格
+					var specPicker = new $.PopPicker();
+					specPicker.setData(spec);
+					var showSpecPickerButton = doc.getElementById('showSpec');
+					var specResult = doc.getElementById('showSpecTxt');
+					var showSpecVal = doc.getElementById('showSpecVal');
+					showSpecPickerButton.addEventListener('tap', function(event) {
+						document.activeElement.blur();
+						setTimeout(function(){
+							specPicker.show(function(items) {
+								specResult.innerText =  _getParam(items[0], 'text')
+								showSpecVal.setAttribute('value',_getParam(items[0], 'value'));
+								//返回 false 可以阻止选择框的关闭
+								//return false;
+							});
+						},300);
+					}, false);
+					//规格
+					var unitPicker = new $.PopPicker();
+					unitPicker.setData(unit);
+					var showUnitPickerButton = doc.getElementById('showUnit');
+					var unitResult = doc.getElementById('showUnitTxt');
+					var showUnitVal = doc.getElementById('showUnitVal');
+					showUnitPickerButton.addEventListener('tap', function(event) {
+						document.activeElement.blur();
+						setTimeout(function(){
+							unitPicker.show(function(items) {
+								unitResult.innerText =  _getParam(items[0], 'text')
+								showUnitVal.setAttribute('value',_getParam(items[0], 'value'));
+								//返回 false 可以阻止选择框的关闭
+								//return false;
+							});
+						},300);
+					}, false);
+					
+					//产地
+					var cityPicker3 = new $.PopPicker({
+						layer: 3
+					});
+					cityPicker3.setData(cityData3);
+					var showCityPickerButton = doc.getElementById('showCityPicker');
+					var cityResult3 = doc.getElementById('cityTxt');
+					var provinceVal = doc.getElementById('provinceVal');
+					showCityPickerButton.addEventListener('tap', function(event) {
+						document.activeElement.blur();
+						setTimeout(function(){
+							cityPicker3.show(function(items) {
+								cityResult3.innerText =  _getParam(items[0], 'text') + " " + _getParam(items[1], 'text') + " " + _getParam(items[2], 'text');
+								$('#provinceVal')[0].setAttribute('value',_getParam(items[0], 'value'));
+								$('#cityVal')[0].setAttribute('value',_getParam(items[1], 'value'));
+								$('#countyVal')[0].setAttribute('value',_getParam(items[2], 'value'));
+								provinceVal.nextSibling.nextSibling.style.display="none";
+								//返回 false 可以阻止选择框的关闭
+								//return false;
+							});
+						},300);
+					}, false);
+					
+					//包邮条件
+					var PostagePicker = new $.PopPicker();
+					PostagePicker.setData(conditionPostage);
+					var showPostagePickerButton = doc.getElementById('showPostage');
+					var PostageResult = doc.getElementById('showPostageTxt');
+					var showPostageVal = doc.getElementById('showPostageVal');
+					showPostagePickerButton.addEventListener('tap', function(event) {
+						document.activeElement.blur();
+						setTimeout(function() {
+							PostagePicker.show(function(items) {
+								PostageResult.innerText =  _getParam(items[0], 'text');
+								showPostageVal.setAttribute('value',_getParam(items[0], 'value'));
+								showPostageVal.nextSibling.nextSibling.style.display="none";
+								var index = _getParam(items[0], 'value');
+								
+								switch(index){
+									case '1':
+										console.log('按件数');
+										$('#byNumberPostage')[0].style.display='flex';
+										$('#byPricePostage')[0].style.display='none';
+										$('#byDistrictPostage')[0].style.display='none';
+										break;
+									case '2':
+										console.log('根据钱数');
+										$('#byNumberPostage')[0].style.display='none';
+										$('#byPricePostage')[0].style.display='flex';
+										$('#byDistrictPostage')[0].style.display='none';
+										break;
+									case '3':
+										console.log('件数和地域限制');
+										$('#byNumberPostage')[0].style.display='flex';
+										$('#byPricePostage')[0].style.display='none';
+										$('#byDistrictPostage')[0].style.display='flex';
+										break;
+									case '4':
+										console.log('钱数和地域限制');
+										$('#byNumberPostage')[0].style.display='none';
+										$('#byPricePostage')[0].style.display='flex';
+										$('#byDistrictPostage')[0].style.display='flex';
+										break;
+									default:
+										console.log('其他')
+								}
+								//返回 false 可以阻止选择框的关闭
+								//return false;
+							});
+						}, 300);
+					}, false);
+				});
+			})(mui, document);
+			mui.plusReady(function(){
+				plus.webview.currentWebview().setStyle({
+				    softinputMode: "adjustResize"  // 弹出软键盘时自动改变webview的高度
+				});
+			})
+//上传视频------------------------------------------------------------------------------------------------
+			document.getElementById('addVideoBtn').addEventListener('tap', function() {
+				showActionSheetVideo('addVideoBtn');
+//				var len = $('.mainImgBox').length;
+//				if(len>=1){
+//					alert('商品主图最多上传 1 张')
+//				}else{
+//					showActionSheet('addMainImgBtn');
+//				}
+			});
+			//弹出系统选择框 选择拍摄视频或者相册选取视频
+			function showActionSheetVideo(conf) {
+//				console.log(JSON.stringify(conf));
+				var divid = conf;
+				console.log('divid:'+divid)
+				var actionbuttons = [{
+					title: "拍摄视频"
+				}, {
+					title: "相册选取"
+				}];
+				var actionstyle = {
+					title: "选择视频",
+					cancel: "取消",
+					buttons: actionbuttons
+				};
+				plus.nativeUI.actionSheet(actionstyle, function(e) {
+					if (e.index == 1) {
+						getVideo(divid);
+					} else if (e.index == 2) {
+						galleryVideo(divid);
+					}
+				});
+			}
+			
+//上传图片---------------------------------------------------------------------------------------------
+			document.getElementById('addMainImgBtn').addEventListener('tap', function() {
+				var len = $('.mainImgBox').length;
+				if(len>=1){
+					alert('商品主图最多上传 1 张')
+				}else{
+					showActionSheet('addMainImgBtn');
+				}
+			});
+			document.getElementById('addSubImgBtn').addEventListener('tap', function() {
+				var len = $('.subImgBox').length;
+				if(len>=5){
+					alert('商品幅图最多上传 5 张')
+				}else{
+					showActionSheet('addSubImgBtn');
+				}
+				
+			});
+			//存放幅图数组
+			var files = [];
+			//初始上传地址 
+			var server = "http://192.168.1.200:8082/APPMerchant/appfileupload/appfileupload.do";
+			
+			var index = 1;
+			//弹出系统选择框 选择拍照或者相册
+			function showActionSheet(conf) {
+//				console.log(JSON.stringify(conf));
+				var divid = conf;
+				console.log('divid:'+divid)
+				var actionbuttons = [{
+					title: "拍照"
+				}, {
+					title: "相册选取"
+				}];
+				var actionstyle = {
+					title: "选择照片",
+					cancel: "取消",
+					buttons: actionbuttons
+				};
+				plus.nativeUI.actionSheet(actionstyle, function(e) {
+					if (e.index == 1) {
+						getImage(divid);
+					} else if (e.index == 2) {
+						galleryImg(divid);
+					}
+				});
+			}
+			//相机选取照片
+			function getImage(divid) {
+				var cmr = plus.camera.getCamera();
+				cmr.captureImage(function(p) {
+					plus.io.resolveLocalFileSystemURL(p, function(entry) {
+						compressImage(entry.toLocalURL(), entry.name, divid);
+					}, function(e) {
+						plus.nativeUI.toast("读取拍照文件错误：" + e.message);
+					});
+				}, function(e) {}, {
+					filename: "_doc/camera/",
+					index: 1
+				});
+			}
+			//相册选取照片
+			function galleryImg(divid) {
+				plus.gallery.pick(function(p) {
+					plus.io.resolveLocalFileSystemURL(p, function(entry) {
+						var fileSize = 0;
+						//图片压缩函数
+						entry.file(function(file){
+		                    // 数据只能在该函数内部显示
+		                    fileSize = (file.size * 100 / 1024) / 100
+		                    console.log("原始文件大小：" + fileSize +"KB   filename:"+file.name);
+		                    var quality = 90;
+		                    if(fileSize<200){
+		                    		alert('请上传图片大于200kb');
+		                    		return false;
+		                    }
+		                    if(fileSize>=102400){
+		                    		alert('上传图片太大');
+		                    		return false;
+		                    }
+		                    	console.log('quality:'+quality)
+		                    compressImage(entry.toLocalURL(), entry.name, divid);
+		                })
+					}, function(e) {
+						plus.nativeUI.toast("读取拍照文件错误：" + e.message);
+					});
+				}, function(e) {}, {
+					filename: "_doc/camera/",
+					filter: "image"
+				});
+			}
+			//图片压缩函数
+			function compressImage(url, filename, divid,quality) {
+				$('#'+divid).next('.error').fadeOut(0);
+				var name = "_doc/upload/" + divid + "-" + filename; //_doc/upload/F_ZDDZZ-1467602809090.jpg 
+				plus.zip.compressImage({
+					src: url,
+					//src: (String 类型 )压缩转换原始图片的路径 
+					dst: name,
+					//压缩转换目标图片的路径 
+					quality: 20,//quality: (Number 类型 )压缩图片的质量.取值范围为1-100 
+					overwrite: true //overwrite: (Boolean 类型 )覆盖生成新文件
+				}, function(event) {
+					console.log('event:'+JSON.stringify(event))
+					//uploadf(event.target,divid); 
+					var path = name; //压缩转换目标图片的路径 
+					//event.target获取压缩转换后的图片url路 
+					//filename图片名称 
+					var size = (event.size * 100 / 1024) / 100;
+					console.log('压缩后size:'+size)
+					saveimage(event.target, divid, filename, path);
+				}, function(error) {
+					plus.nativeUI.toast("压缩图片失败，请稍候再试");
+				});
+			}
+			//图片保存到本地函数
+			function saveimage(url, divid, name, path) {
+//				alert('图片保存到本地函数')
+				var state = 0;
+				var wt = plus.nativeUI.showWaiting();
+				// plus.storage.clear(); 
+				name = name.substring(0, name.indexOf(".")); //图片名称：1467602809090 
+				var id = getUid();//调用一个随机数
+				var itemname = id + "img-" + divid; //429img-F_ZDDZ 
+				var itemvalue = plus.storage.getItem(itemname);
+				if (itemvalue == null) {
+					itemvalue = "{" + name + "," + path + "," + url + "}"; //{IMG_20160704_112614,_doc/upload/F_ZDDZZ-IMG_20160704_112614.jpg,file:///storage/emulated/0/Android/data/io.dcloud...../doc/upload/F_ZDDZZ-1467602809090.jpg} 
+				} else {
+					itemvalue = itemvalue + "{" + name + "," + path + "," + url + "}";
+				}
+				plus.storage.setItem(itemname, itemvalue);
+				// var src = 'src="'+url+'"'; 
+				var src = url;
+				alert("itemvalue="+url); 
+				showImgDetail(name, divid, id, src);
+				wt.close();
+			}
+			//将图片在本地显示出来
+			function showImgDetail(imgId, imgkey, id, src) {
+//				alert('将图片在本地显示出来')
+				if(imgkey=='addSubImgBtn'){
+					$('#'+imgkey).before('<span class="subImgBox">'+
+											'<img src="'+src+'" alt="" data-preview-src="" data-preview-group="1"/>'+
+											'<em class="delImgBtn">'+
+												'<img src="../images/icon/014.png" alt="" />'+
+											'</em>'+
+										'</span>')
+				}else if(imgkey=='addMainImgBtn'){
+					$('#'+imgkey).before('<span class="mainImgBox">'+
+											'<img src="'+src+'" alt=""  data-preview-src="" data-preview-group="0"/>'+
+											'<em class="delImgBtn">'+
+												'<img src="../images/icon/014.png" alt="" />'+
+											'</em>'+
+										'</span>')
+					
+				}
+			}
+			//上传图片文件放入数组
+			function upload_img() {
+				files = [];
+//				alert('上传图片文件放入数组')
+				var lenMain = $('.mainImgBox').length;
+				var lenSub  = $('.subImgBox').length;
+				if(lenMain==0){
+					$('#addMainImgBtn').next('.error').fadeIn(0);
+				};
+				if(lenSub==0){
+					$('#addSubImgBtn').next('.error').fadeIn(0);
+				};
+				if(lenMain>0&&lenSub>0){
+					files.push({
+						name: "MainUploadkey_" + 0,
+						path: $('.mainImgBox').find('img').attr('src')
+					});
+					$('.subImgBox').each(function(index){
+						var src = $(this).find('img').attr('src');
+						files.push({
+							name: "subUploadkey_" + index,
+							path: src
+						});
+					});
+					console.log('上传数组:'+JSON.stringify(files));
+					start_upload()
+				};
+			}
+			//开始上传
+			function start_upload() {
+//				alert('开始上传')
+				//判断下是否有照片在数组中
+				if (files.length <= 0) {
+					plus.nativeUI.alert("没有添加上传文件！");
+					return;
+				}
+				//原生的转圈等待框
+				var wt = plus.nativeUI.showWaiting();
+				var task=plus.uploader.createUpload(server,
+                    {method:"POST"},
+                    function(t,status){ //上传完成
+                        if(status==200){
+                        		console.log('上传成功:'+JSON.stringify(t));
+                            alert("上传成功："+t.responseText);
+                            wt.close(); //关闭等待提示按钮
+                        }else{
+                            alert("上传失败："+status);
+                            wt.close();//关闭等待提示按钮
+                        }
+                    }
+                );
+                console.log('task11:'+JSON.stringify(task));
+				//addData 添加上传数据
+				for (var i = 0; i < files.length; i++) {
+					var f = files[i];
+					console.log('task:'+JSON.stringify(task));
+					//addFile 添加上传文件
+					task.addFile(f.path, {key: f.name});
+				}
+				//执行上传
+				task.start();
+			}
+			
+			// 产生一个随机数  
+            function getUid() {  
+                return Math.floor(Math.random() * 100000000 + 10000000).toString();  
+            }
+            
+            //删除图片
+            mui('body').on('tap', '.delImgBtn', function() {
+				var mainStates = $(this).parents('span').hasClass('mainImgBox');
+				console.log('files.length:'+files.length)
+				if(files.length>0){//提交后创建了files数组后在删除
+					if(mainStates){	//点击按钮为删除主图
+						$('.mainImgBox').remove();
+						files.splice(0,1)
+					}else{//点击按钮删除幅图
+						if($('.mainImgBox').length>0){//主图还在情况下，删除幅图
+							var index = $(this).parents('span').index();
+							console.log('index:'+(index+1));
+							files.splice((index+1),1)
+							$(this).parents('span').remove();
+						}else{//主图不在的情况下，删除幅图
+							var index = $(this).parents('span').index();
+							console.log('index:'+(index+1));
+							files.splice((index+1),1)
+							$(this).parents('span').remove();
+						}
+					}
+				}else{//未创建files数组
+					if(mainStates){//删除主图
+						$('.mainImgBox').remove();
+					}else{//删除幅图
+						$(this).parents('span').remove();
+					}
+				}
+			});
+            
+//上传图片完毕-----------------------------------------------------------------------------------
+			
+			//包邮按钮
+			mui('body').on('change', '#freePostage', function() {
+				if(this.checked){
+					$('#postageBox').fadeOut(0);
+					$('#postageVal').val(0);
+					$('#conditionPostageBox').fadeOut(0);
+					$('#conditionBox').fadeOut(0);
+				}else{
+					$('#postageBox').fadeIn(0);
+					$('#postageVal').val('');
+					$('#conditionPostageBox').fadeIn(0);
+					$('#conditionBox').fadeIn(0);
+				}
+			});
+			//条件包邮滑块按钮
+			mui('body').on('toggle', '#conditionPostageBtn', function() {
+				var checked = event.detail.isActive;
+				if(!checked){
+					$('#conditionPostagevVal').val(0);
+					$('#conditionBox').fadeOut(0);
+					$('#byPostageCondition').fadeOut(0);
+				}else{
+					$('#conditionPostagevVal').val(1);
+					$('#conditionBox').fadeIn(0);
+					$('#byPostageCondition').fadeIn(0);
+				}
+			});
+			//不包邮地区选择
+			mui('.mui-scroll-wrapper').scroll();
+			mui('body').on('tap', '#showNotPostageDistrict', function() {
+				document.activeElement.blur();
+				setTimeout(function(){
+					mui('#NotPostageDistrict').popover('show');
+				},100)
+			});
+			mui('body').on('tap', '.cancelPopover', function() {
+				document.activeElement.blur();
+				mui('#NotPostageDistrict').popover('hide');
+			});
+			mui('body').on('tap', '.okPopover', function() {
+				var postageDistrictTxt = [],postageDistrictVal = [];
+				mui(".districtList input").each(function () {
+					//若当前input为空，则alert提醒
+					if(this.checked){
+						postageDistrictTxt.push(this.value);
+						postageDistrictVal.push(this.id);
+					}
+					$('#showNotPostageDistrictTxt').html(postageDistrictTxt.join("、"));
+					$('#showNotPostageDistrictVal').val(postageDistrictVal.join(","))
+					
+				});
+				document.activeElement.blur();
+				mui('#NotPostageDistrict').popover('hide');
+			});
+			//发布商品类型
+			mui('body').on('change', 'input[name=productType]', function() {
+				if(this.value==0){
+					$('#reserve').fadeOut(0);
+				}else{
+					$('#reserve').fadeIn(0);
+				}
+			});
+			//发布商品
+			mui('body').on('tap', '#submitBtn', function(){
+				upload_img();
+				document.activeElement.blur();
+				
+				//上传的图片
+				var mainImg = $('.mainImgBox').length,
+				 	subImg  = $('.subImgBox').length;
+				//声明变量
+				var productName = $.trim($('#productName').val()),//商品标题
+					productSubName = $.trim($('#productSubName').val()),//商品副标题
+					showCategoryVal = $.trim($('#showCategoryVal').val()),//商品类目
+					productPrice = $.trim($('#productPrice').val()),//商品价格
+					stockNumber = $.trim($('#stockNumber').val()),//商品库存数量
+					reserveProductNum = $.trim($('#reserveProductNum').val()),//预定产品数量
+					reserveTime = $.trim($('#reserveTime').val());//预定发货日期，时间戳格式
+				//产地模块
+				var provinceVal = $('#provinceVal').val(),//省份
+					cityVal = $('#cityVal').val(),//地级市
+					countyVal = $('#countyVal').val();//区县
+				//规格模块
+				var specNum = $.trim($('#specNum').val()),//数量
+					showSpecVal = $('#showSpecVal').val(),//单位
+					showUnitVal = $('#showUnitVal').val();//包装种类
+				//包邮模块
+				var freePostage = $('#freePostage').attr('checked'),//包邮按钮
+					postageVal = $.trim($('#postageVal').val()),//邮费
+					conditionPostagevVal = $('#conditionPostagevVal').val(),//条件包邮,0:未开启，1:开启
+					showPostageVal = $('#showPostageVal').val(),//选择条件分类，1:根据件数，2:根据钱数，3:件数和地域限制，4:钱数和地域限制
+					byNumberPostageVal = $.trim($('#byNumberPostageVal').val()),//案件数
+					byPricePostageVal = $.trim($('#byPricePostageVal').val()),//按钱数
+					showNotPostageDistrictVal = $('#showNotPostageDistrictVal').val();//不包邮地区
+				//产品类型
+				var publicationType = $('input[name=productType]:checked').val();//发布产品类型，0普通，1预售
+					
+				//验证输入框不能为空
+				var inputNotNUll = [
+					{
+						'id':'addMainImgBtn',
+						'val':mainImg,
+						'type':'mainImg'
+					},
+					{
+						'id':'addSubImgBtn',
+						'val':subImg,
+						'type':'subImg'
+					},
+					{
+						'id':'productName',
+						'val':productName,
+						'type':'text'
+					},
+					{
+						'id':'productSubName',
+						'val':productSubName,
+						'type':'text'
+					},
+					{
+						'id':'showCategoryVal',
+						'val':showCategoryVal,
+						'type':'seclect'
+					},
+					{
+						'id':'provinceVal',
+						'val':provinceVal,
+						'type':'seclect'
+					},
+					{
+						'id':'productPrice',
+						'val':productPrice,
+						'type':'price'
+					},
+					{
+						'id':'specNum',
+						'val':specNum,
+						'type':'number'
+					},
+					{
+						'id':'stockNumber',
+						'val':stockNumber,
+						'type':'number'
+					}
+				];
+				if(publicationType==0){//普通商品
+					console.log('普通')
+				}else if(publicationType==1){//预售商品
+					inputNotNUll.push({'id':'reserveProductNum','val':reserveProductNum,'type':'number'});
+					inputNotNUll.push({'id':'reserveTime','val':reserveTime,'type':'time'});
+				}
+				if(freePostage == 'checked'){//包邮
+					console.log('包邮')
+				}else if(freePostage===undefined){//不包邮
+					inputNotNUll.push({'id':'postageVal','val':postageVal,'type':'number'});
+					if(conditionPostagevVal==1){//开启条件包邮
+						inputNotNUll.push({'id':'showPostageVal','val':showPostageVal,'type':'select'});
+						switch(showPostageVal){//1:根据件数，2:根据钱数，3:件数和地域限制，4:钱数和地域限制
+							case '1':
+								inputNotNUll.push({'id':'byNumberPostageVal','val':byNumberPostageVal,'type':'number'});
+								break;
+							case '2':
+								inputNotNUll.push({'id':'byPricePostageVal','val':byPricePostageVal,'type':'price'});
+								break;
+							case '3':
+								inputNotNUll.push({'id':'byNumberPostageVal','val':byNumberPostageVal,'type':'number'});
+								inputNotNUll.push({'id':'showNotPostageDistrictVal','val':showNotPostageDistrictVal,'type':'seclect'});
+								break;
+							case '4':
+								inputNotNUll.push({'id':'byPricePostageVal','val':byPricePostageVal,'type':'price'});
+								inputNotNUll.push({'id':'showNotPostageDistrictVal','val':showNotPostageDistrictVal,'type':'seclect'});
+								break;
+							default:
+								console.log('其他')
+						}
+					}
+				}
+				isNoEmpty(inputNotNUll)
+			})
+			function isNoEmpty(data){
+				var states = [];
+				var j = 0;
+				$.each(data,function(i,t){
+					j++;
+					if(t.val==''){
+						states.push(false);
+						$('#'+t.id).next('.error').fadeIn(0);
+					}else{
+						if(t.type=='price'){
+							var reg = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;
+      						$('#'+t.id).next('.error').fadeIn(0);
+						}
+						if(t.type=='number'){
+							
+						}
+						states.push(true);
+						$('#'+t.id).next('.error').fadeOut(0);
+					}
+				});
+				console.log('j:'+j);
+				console.log('上传验证数组：'+JSON.stringify(states)+'上传验证数组长度：'+states.length);
+				
+				$.each(states,function(i,v){
+					if(!v) return false;
+					console.log('验证通过，可以提交')
+				})
+				
+//				upload_img();
+			}
+		</script>
+	</body>
+
+</html>

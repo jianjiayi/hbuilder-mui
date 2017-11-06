@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>商品详情</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" href="../css/app.css">
+		<style>
+			body,
+			.mui-content{
+				background: #EEEEEE;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back backBtn"></a>
+			<h1 class="mui-title">普通商品</h1>
+		</header>
+		<div id="productDetail" class="mui-content">
+			<div class="imgGroup">
+				<div class="mainImg">
+					<img src="../images/001.png"/>
+				</div>
+				<div class="subImg">
+					<div class="list">
+						<span>
+							<img src="../images/001.png" alt="" />
+							<em>*</em>
+						</span>
+						<span>
+							<img src="../images/001.png" alt="" />
+						</span>
+						<span>
+							<img src="../images/001.png" alt="" />
+						</span>
+						<span>
+							<img src="../images/001.png" alt="" />
+						</span>
+					</div>
+				</div>
+				<div id="productStatus">
+					<span>
+						<em>已上架</em>
+					</span>
+				</div>
+					
+			</div>
+			<div class="txtGroup">
+				<ul class="formList">
+					<li class="item">
+						<em class="lebal">商品名称:</em>
+						<div class="input">
+							<p class="disableTxt">大西瓜</p>
+						</div>
+					</li>
+					<li class="item">
+						<em class="lebal">商品描述:</em>
+						<div class="input">
+							<p class="disableTxt">大西瓜大大大大大大大大水库的飞机公司快递发噶说；发生的发生阿里斯顿开发商地方</p>
+							
+						</div>
+					</li>
+					<li class="item">
+						<em class="lebal">商品类目:</em>
+						<div id="" class="input selectPicker">
+							<p class="txt">
+								<p id="showCategoryVal" class="disableTxt">水果</p>
+							</p>
+						</div>
+					</li>
+					<li class="item">
+						<em class="lebal">产地:</em>
+						<div id="" class="input selectPicker">
+							<p class="txt">
+								<p class="disableTxt">河北省-廊坊市-管线</p>
+							</p>
+						</div>
+					</li>
+					<li class="item">
+						<em class="lebal">商品价格:</em>
+						<div class="input">
+							<p class="disableTxt">0.5</p>元
+						</div>
+					</li>
+					<li class="item specBox">
+						<em class="lebal">规格:</em>
+						<div class="input">
+							<p class="disableTxt">500</p>
+							<p class="txt">
+								<em id="">KG</em>
+							</p>
+							<p class="txt">
+								<em id="">盒</em>
+							</p>
+						</div>
+					</li>
+					<li class="item">
+						<em class="lebal">商品库存数量:</em>
+						<div class="input">
+							<p class="disableTxt">500</p>
+						</div>
+					</li>
+					<li class="item specBox">
+						<em class="lebal">邮费:</em>
+						<div class="input">
+							<p id="postageVal" class="disableTxt">500</p>
+							<em class="checkbox">
+								<input id="freePostage" type="checkbox"/> 包邮
+							</em>
+						</div>
+					</li>
+					<li id="conditionPostage" class="item">
+						<em class="lebal">条件包邮:</em>
+						<div class="input">
+							<em class="checkbox">
+								<input name="condition" type="radio" /> 是
+							</em>
+							<em class="checkbox">
+								<input name="condition" type="radio" checked="checked"/> 否
+							</em>
+						</div>
+					</li>
+				</ul>
+				<ul id="reserve" class="formList" style="display: none;">
+					<li class="item">
+						<em class="lebal">预定产品数量:</em>
+						<div class="input">
+							<input id="" type="text" placeholder="请输入商品标题"/>
+						</div>
+					</li>
+					<li class="item">
+						<em class="lebal">发货日期:</em>
+						<div id="timeBtn"  data-options='{"value":"2017-10-30 16:10","beginYear":2010,"endYear":2020}'  class="input">
+							<em id="timeBtnTxt">请选择</em>
+							<input id="reserveTime" type="hidden" value=""/>
+						</div>
+					</li>
+				</ul>
+			</div>
+			
+			<div class="publicationType">
+				<p>
+					<input id="" name="productType" type="radio" value="0"  checked="checked"/>
+					普通产品
+				</p>
+				<p>
+					<input id="" name="productType" type="radio" value="1"/>
+					预定产品
+				</p>
+			</div>
+		</div>
+		
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/rem.js"></script>
+		<script src="../js/jquery.js"></script>
+		
+		<script>
+			mui.init({
+				swipeBack: true //启用右滑关闭功能
+			});
+			
+			mui('body').on('change', '#freePostage', function() {
+				if(this.checked){
+					$('#postageVal').fadeOut(0);
+					$('#postageVal').val(0);
+					$('#conditionPostage').fadeOut(0);
+				}else{
+					$('#postageVal').fadeIn(0);
+					$('#postageVal').val('');
+					$('#conditionPostage').fadeIn(0);
+				}
+			});
+			mui('body').on('change', 'input[name=productType]', function() {
+				if(this.value==0){
+					$('#reserve').fadeOut(0);
+				}else{
+					$('#reserve').fadeIn(0);
+				}
+			});
+			
+		</script>
+	</body>
+
+</html>

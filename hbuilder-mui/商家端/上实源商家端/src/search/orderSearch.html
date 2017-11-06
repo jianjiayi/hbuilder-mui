@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>订单搜索</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" href="../css/app.css">
+		<style>
+			body,
+			.mui-content{
+				background: #EEEEEE;
+			}
+			.mui-content>.mui-table-view:first-child {
+			     margin-top: -1px; 
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back backBtn"></a>
+			<p class="searchBox">
+				<img src="../images/icon/005.png"/>
+				<input id="keywords" type="search" class="mui-input-clear" placeholder="请输入订单编号">
+			</p>
+			<span class="rightBtn">
+				<a id="searchBtn" class="addProduct">搜索</a>
+			</span>
+		</header>
+		<div class="mui-content">
+			<ul id="orderList" class="mui-table-view mui-table-view-chevron" style="display: none;">
+				<li data-id="" class="item">
+					<div class="topTitle">
+						<p class="number">订单编号：123456789</p>
+						<em class="status">已支付</em>
+					</div>
+					<div class="list">
+						<div data-id="" class="product">
+							<img class="minImg" src="../images/001.png"/>
+							<div class="txt">
+								<p class="name">山东鲁塞有机物污染苹果</p>
+								<p class="spec">1KG／盒</p>
+								<p class="price">¥150.00</p>
+							</div>
+						</div>
+					</div>
+					<div class="info">
+						<p class="time">
+							<em>下单时间</em>
+							<em class="txt">2017-11-2 09:25:06</em>
+						</p>
+						<div class="receiving">
+							<p class="nameTel">收货人：见双烹  13121378101</p>
+							<p class="address">
+								北京市朝阳区八里庄
+							</p>
+						</div>
+					</div>
+					<div class="express">
+						<input class="expressNum" type="number" placeholder="请输入快递单号"/>
+						<p class="selectBtn">
+							<select class="expressVal">
+								<option value="0">请选择快递</option>
+								<option value="">item-2</option>
+								<option value="">item-3</option>
+								<option value="">item-4</option>
+								<option value="">item-5</option>
+								<option value="">item-2</option>
+								<option value="">item-3</option>
+								<option value="">item-4</option>
+							</select>
+						</p>
+					</div>
+					<div class="btnGroup">
+						<p class="txt">
+							合计：<em class="sumPrice">¥150.00</em>
+						</p>
+						<p class="btn">
+							<em data-id="" class="confirmBtn">确认发货</em>
+						</p>
+					</div>
+				</li>
+			</ul>
+			<section class="proTxt">
+				<aside>
+					<em class="title">搜索订单</em>
+					<img src="../images/icon/007.png"/>
+				</aside>
+			</section>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/rem.js"></script>
+		<script src="../js/jquery.js"></script>
+		
+		<script>
+			mui.init({
+				swipeBack: true //启用右滑关闭功能
+			});
+			 
+
+			var nativeWebview, imm, InputMethodManager;
+			var initNativeObjects = function() {
+				if (mui.os.android) {
+					var main = plus.android.runtimeMainActivity();
+					var Context = plus.android.importClass("android.content.Context");
+					InputMethodManager = plus.android.importClass("android.view.inputmethod.InputMethodManager");
+					imm = main.getSystemService(Context.INPUT_METHOD_SERVICE);
+				} else {
+					nativeWebview = plus.webview.currentWebview().nativeInstanceObject();
+				}
+			};
+			var showSoftInput = function() {
+				if (mui.os.android) {
+					imm.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
+				} else {
+					nativeWebview.plusCallMethod({
+						"setKeyboardDisplayRequiresUserAction": false
+					});
+				}
+				setTimeout(function() {
+					var inputElem = document.querySelector('input');
+					inputElem.focus();
+					inputElem.parentNode.classList.add('mui-active'); //第一个是search，加上激活样式
+				}, 0);
+			};
+			mui.plusReady(function() {
+				initNativeObjects();
+				showSoftInput();
+			});
+			mui("body").on('tap','#searchBtn',function(){
+				var dataId = this.getAttribute("data-id");
+			 	var keywords = $('#keywords').val();
+				if($.trim(keywords)==''){
+					mui.toast('请输入订单编号')
+					return false;
+				}
+				$('.proTxt').fadeOut(0);
+				$('#orderList').fadeIn(0)
+				return false;
+			})
+		</script>
+	</body>
+
+</html>

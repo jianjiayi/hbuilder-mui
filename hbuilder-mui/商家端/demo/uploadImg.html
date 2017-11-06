@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+    <link rel="import" href="../partial/head.html?__inline"/>
+    <style type="text/css">
+    	#clip {
+	      position: absolute;
+        width: 12rem;
+        height: 12rem;
+        z-index: 100;
+        background: rgba(255,255,255,.2);
+        border: 1px solid rgba(0,0,0,.5);
+        line-height: 12rem;
+        text-align: center;
+        font-size: 2rem;
+        color: rgba(0,0,0,.7);
+    	}
+    	button {
+    	  width: 50%;
+    	  border: 1px solid #ccc;
+    	  height: 2.8rem;
+    	  font-size: 1.1rem;
+    	  background: #fff;
+    	}
+    	#back {
+    	  margin-left: 0.5rem;
+    	}
+    	#finish {
+    	  margin-right: 0.5rem;
+    	}
+    </style>
+  </head>
+  
+  <body>
+    <div class="vbox" style="background: #333;">
+      
+      <div class="header hbox">
+        <div id="back">取消</div>
+        <div class="box-1"></div>
+        <div id="finish">完成</div>
+      </div>
+      <div class="box-1"></div>
+      <img style="width: 100%;" id="img" />
+      <div class="box-1"></div>
+      <div><button id="enlarge">放大</button><button id="reduce">缩小</button></div>
+    </div>
+    <div id="clip">拖动我</div>
+  </body>
+  
+  <link rel="import" href="../partial/script.html?__inline"/>
+  <script type="text/javascript">
+    var extraHeight = 2.8 + 3.1;
+    var headerHeight = 3.1;
+    var footerHeght = 2.8;
+    var search = getSearchArgs();
+    
+    mui.plusReady(initImage);
+    
+    
+    function initImage() {
+
+      $('#img').attr('src', search.src);
+    
+      $('#img').bind('load', function() {
+        
+        Clip.changeRange();
+        Clip.initEvent();
+        
+      });
+      
+      mui('body').on('tap', '#finish', function() {
+        compressImage();
+      });
+      
+      mui('body').on('tap', '#back', function() {
+        mui.back();
+      });
+    }
+    
+    var Clip = {
+      size: 12,
+      range: {},
+      topCss: 0,
+      leftCss: 0,
+      touchX: 0,
+      touchY: 0,
+      timer: null,
+      changeBase: function(index) {  
+        this.size += index;
+        
+        $('#clip').css({
+          height: this.size + 'rem',
+          width: this.size + 'rem',
+          lineHeight: this.size + 'rem'
+        });
+        
+        this.changeRange();
+      },
+      changeRange: function() {
+        this.topCss =($('body').height() - baseSize * extraHeight - baseSize * this.size) / 2 + baseSize * headerHeight;
+        this.leftCss = ($('body').width() - baseSize * this.size) / 2;
+        this.changeClipStyle(this.leftCss, this.topCss);
+        
+        var minTop = ($('body').height() - baseSize * extraHeight - $('#img').height()) / 2 + baseSize * headerHeight;
+        var maxTop = $('body').height() - ($('body').height() - baseSize * extraHeight - $('#img').height()) / 2 - 
+                  baseSize * footerHeght - baseSize * this.size;
+        
+        var minLeft = 0;
+        var maxLeft = $('body').width() - baseSize * this.size;
+        this.range = {
+          minTop: minTop,
+          maxTop: maxTop,
+          minLeft: minLeft,
+          maxLeft: maxLeft
+        };
+        
+      },
+      initEvent: function() {
+        mui('body').on('tap', '#enlarge', function(e) {
+          Clip.changeBase(1);
+        });
+        mui('body').on('tap', '#reduce', function(e) {
+          Clip.changeBase(-1);
+        })
+        
+        var clip = document.getElementById('clip');
+        
+        clip.addEventListener('touchstart', function(event) {
+          Clip.touchX = event.touches ? event.touches[0].clientX : event.screenX;
+          Clip.touchY = event.touches ? event.touches[0].clientY : event.screenY;
+          event.preventDefault();
+        });
+        
+        clip.addEventListener('touchmove', function(event) {
+          //设置20ms的事件
+          if(Clip.timer != null) {
+            return;
+          }
+          Clip.timer = setTimeout(function() {
+            var x = event.touches ? event.touches[0].clientX : event.screenX;
+            var y = event.touches ? event.touches[0].clientY : event.screenY;
+            
+            var disX = x - Clip.touchX;
+            var disY = y - Clip.touchY;
+            
+            var nowLeft = Clip.leftCss + disX;
+            var nowTop = Clip.topCss + disY;
+            
+            if(nowLeft < Clip.range.minLeft) {
+              nowLeft = Clip.range.minLeft;
+            }
+            if(nowLeft > Clip.range.maxLeft) {
+              nowLeft = Clip.range.maxLeft;
+            }
+            if(nowTop < Clip.range.minTop) {
+              nowTop = Clip.range.minTop;
+            }
+            if(nowTop > Clip.range.maxTop) {
+              nowTop = Clip.range.maxTop;
+            }
+            
+            Clip.changeClipStyle(nowLeft, nowTop);
+            
+            Clip.touchX = x;
+            Clip.touchY = y;
+            Clip.timer = null;
+          }, 20);
+          
+        });
+        
+      },
+      changeClipStyle: function(leftCss, topCss) {
+        $('#clip').css({
+          left: leftCss + 'px',
+          top: topCss + 'px'
+        });
+        Clip.leftCss = leftCss;
+        Clip.topCss = topCss;
+      }
+    }
+  	
+  	function compressImage() {
+  	  plus.nativeUI.showWaiting('压缩图片');
+  	  //获取width和height的百分比
+  	  var widthPix = (Clip.size * baseSize / $('#img').width()).toFixed(2) * 100;
+  	  var heightPix = (Clip.size * baseSize / $('#img').height()).toFixed(2) * 100;
+  	  //获取左上角位置百分比
+  	  var topPix = ((Clip.topCss - Clip.range.minTop) / $('#img').height()).toFixed(2) * 100;
+  	  var leftPix = (Clip.leftCss / $('#img').width()).toFixed(2) * 100;
+  	  
+  	  //对图片进行裁剪
+  	  plus.zip.compressImage(
+  	    {
+  	      src: search.src,
+  	      dst: '_doc/a.jpg',
+  	      overwrite: true,
+  	      clip: {
+  	        top: topPix + '%',
+  	        left: leftPix + '%',
+  	        width: widthPix + '%',
+  	        height: heightPix + '%'
+  	      }
+  	    },
+  	    function(e) {
+  	      resizeImage(e.target);
+  	    },
+  	    function(err) {
+  	      plus.nativeUI.alert('未知错误！',function() {
+            mui.back();
+          });
+  	    }
+  	  );
+  	  //再对图片进行压缩为270*270，再上传到服务器
+  	  function resizeImage(src) {
+  	    plus.zip.compressImage(
+  	      {
+  	        src: src,
+  	        dst: '_doc/a.jpg',
+  	        overwrite: true,
+  	        width: '270px',
+  	        format: 'jpg',
+  	        quality: 100
+  	      },
+  	      function(e) {
+  	        plus.nativeUI.closeWaiting();
+  	        uploadImg(e.target);
+  	      },
+  	      function(err) {
+  	        plus.nativeUI.alert('未知错误！',function() {
+  	          mui.back();
+  	        });
+  	      }
+  	    );
+  	  }
+  	 
+  	  
+  	}
+  	
+  	function uploadImg(src) {
+  	  plus.nativeUI.showWaiting('上传图片');
+  	  
+  	  var task = plus.uploader.createUpload(ajaxUrl, {
+  	    method: 'post', 
+  	    blocksize:204800,
+  	    timeout: 10
+  	  },function(upload, status) {
+  	  });
+  	  
+  	  var a = task.addFile(src, {key: 'headImg'});
+  	  
+  	  task.addData('type', 'uploadImg');                                                                                                                                                                                                                                                                                                                                                                          
+  	  task.addData('userId', window.localStorage.userId);
+  	  task.addEventListener('statechanged', stateChanged, false);
+  	  task.start();
+  	  
+  	  function stateChanged(upload, status) {
+  	    if ( upload.state == 4 && status == 200 ) {
+  	      plus.uploader.clear();
+          plus.nativeUI.closeWaiting();
+          var data = JSON.parse(upload.responseText);
+          if(data.code != '0000') {
+            plus.nativeUI.alert(data.message);
+          } else {
+            plus.nativeUI.toast('上传成功！');
+            var opener = plus.webview.currentWebview().opener();
+            mui.fire(opener, 'refreshImg', {src: data.data});
+            mui.back();
+          }
+        } else if(upload.state == 4 && status == 500){
+          plus.nativeUI.closeWaiting();
+          plus.nativeUI.toast('服务器返回错误！');
+        }
+  	  }
+  	}
+  	
+  </script>
+</html>

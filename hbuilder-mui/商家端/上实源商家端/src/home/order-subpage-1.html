@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>订单管理</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" href="../css/app.css">
+		<style type="text/css">
+			.mui-content>.mui-table-view:first-child {
+				margin-top: -1px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<!--下拉刷新容器-->
+		<div id="pullrefresh" class="mui-content">
+			<!--数据列表-->
+			<ul id="orderList" class="mui-table-view mui-table-view-chevron">
+				<li class="item">
+					<div class="topTitle">
+						<p class="number">订单编号：123456789</p>
+						<em class="status">未支付</em>
+					</div>
+					<div class="list">
+						<div class="product">
+							<img class="minImg" src="../images/001.png"/>
+							<div class="txt">
+								<p class="name">山东鲁塞有机物污染苹果</p>
+								<p class="spec">1KG／盒</p>
+								<p class="price">¥150.00</p>
+							</div>
+						</div>
+						<div class="product">
+							<img class="minImg" src="../images/001.png"/>
+							<div class="txt">
+								<p class="name">山东鲁塞有机物污染苹果</p>
+								<p class="spec">1KG／盒</p>
+								<p class="price">¥150.00</p>
+							</div>
+						</div>
+						<div class="product">
+							<img class="minImg" src="../images/001.png"/>
+							<div class="txt">
+								<p class="name">山东鲁塞有机物污染苹果</p>
+								<p class="spec">1KG／盒</p>
+								<p class="price">¥150.00</p>
+							</div>
+						</div>
+					</div>
+					<div class="info">
+						<p class="time">
+							<em>下单时间</em>
+							<em class="txt">2017-11-2 09:25:06</em>
+						</p>
+						<div class="receiving">
+							<p class="nameTel">收货人：见双烹  13121378101</p>
+							<p class="address">
+								北京市朝阳区八里庄
+							</p>
+						</div>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<script src="../js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/rem.js"></script>
+		<script>
+			
+			mui.init({
+				pullRefresh: {
+					container: '#pullrefresh',
+					down: {
+						style:'circle',
+						callback: pulldownRefresh
+					},
+					up: {
+						auto:true,
+						contentrefresh: '正在加载...',
+						callback: pullupRefresh
+					}
+				}
+			});
+			
+			
+			var count = 0;
+			function pullupRefresh() {
+				setTimeout(function() {
+					mui('#pullrefresh').pullRefresh().endPullup((++count > 2)); //参数为true代表没有更多数据了。
+					var table = document.body.querySelector('.mui-table-view');
+					var cells = document.body.querySelectorAll('.mui-table-view-cell');
+					var newCount = cells.length>0?5:20;//首次加载20条，满屏
+					for (var i = cells.length, len = i + newCount; i < len; i++) {
+						var li = document.createElement('li');
+						li.className = 'item';
+						li.setAttribute("data-id",0);
+						li.innerHTML = '<div class="topTitle">\
+											<p class="number">订单编号：123456789</p>\
+											<em class="status">未支付</em>\
+										</div>\
+										<div class="list">\
+											<div class="product">\
+												<img class="minImg" src="../images/001.png"/>\
+												<div class="txt">\
+													<p class="name">山东鲁塞有机物污染苹果</p>\
+													<p class="spec">1KG／盒</p>\
+													<p class="price">¥150.00</p>\
+												</div>\
+											</div>\
+										</div>\
+										<div class="info">\
+											<p class="time">\
+												<em>下单时间</em>\
+												<em class="txt">2017-11-2 09:25:06</em>\
+											</p>\
+											<div class="receiving">\
+												<p class="nameTel">收货人：见双烹  13121378101</p>\
+												<p class="address">\
+													北京市朝阳区八里庄\
+												</p>\
+											</div>\
+										</div>';
+						table.appendChild(li);
+					}
+				}, 1500);
+			}
+
+			function addData() {
+				var table = document.body.querySelector('.mui-table-view');
+				var cells = document.body.querySelectorAll('.mui-table-view-cell');
+				for(var i = cells.length, len = i + 5; i < len; i++) {
+					var li = document.createElement('li');
+					li.className = 'item';
+					li.setAttribute("data-id",0);
+					li.innerHTML = '<div class="topTitle">\
+										<p class="number">订单编号：123456789</p>\
+										<em class="status">未支付</em>\
+									</div>\
+									<div class="list">\
+										<div class="product">\
+											<img class="minImg" src="../images/001.png"/>\
+											<div class="txt">\
+												<p class="name">山东鲁塞有机物污染苹果</p>\
+												<p class="spec">1KG／盒</p>\
+												<p class="price">¥150.00</p>\
+											</div>\
+										</div>\
+									</div>\
+									<div class="info">\
+										<p class="time">\
+											<em>下单时间</em>\
+											<em class="txt">2017-11-2 09:25:06</em>\
+										</p>\
+										<div class="receiving">\
+											<p class="nameTel">收货人：见双烹  13121378101</p>\
+											<p class="address">\
+												北京市朝阳区八里庄\
+											</p>\
+										</div>\
+									</div>';
+					//下拉刷新，新纪录插到最前面；
+					table.insertBefore(li, table.firstChild);
+				}
+			}
+			/**
+			 * 下拉刷新具体业务实现
+			 */
+			function pulldownRefresh() {
+				setTimeout(function() {
+					addData();
+					mui('#pullrefresh').pullRefresh().endPulldown();
+					mui.toast("为你推荐了5篇文章");
+				}, 1500);
+			}
+
+		</script>
+	</body>
+
+</html>

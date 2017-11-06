@@ -1,0 +1,265 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Hello MUI</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+        <!--标准mui.css-->
+        <link rel="stylesheet" href="../css/mui.min.css">
+        
+        <style>
+            
+            .dynamic_images {  
+                width: 100%;  
+            }  
+              
+            .dynamic_images ul {  
+                margin: 0;  
+                padding: 10px;  
+            }  
+              
+            .dynamic_images ul li {  
+               float: left;
+                list-style: none;  
+                width: 75px;  
+            }  
+              
+            .dynamic_images ul li img {  
+                width: 98%;  
+                height: 75px;  
+            }  
+            
+            .mui-input-group .mui-input-row {
+                height: 40px;
+            }
+            .mui-input-row {
+                position: relative;
+            }
+            
+            mui.min.css:5
+            .mui-input-row {
+                clear: left;
+                overflow: hidden;
+            }
+            h5 {
+                margin: 5px 7px;
+            }
+            
+            .mui-page-content {
+
+                width: 100%;
+                height: 100%;
+                background-color: #efeff4;
+            }
+            .feedback p {
+                padding: 10px 15px 0;
+                font-size: 16px;
+                margin-top: 0;
+                margin-bottom: 10px;
+                color: #000;
+            }
+            .feedback textarea {
+                height: 160px;
+                margin-bottom: 0 !important;
+                padding-bottom: 0 !important;
+            }
+        </style>
+    </head>
+
+    <body>
+        <!--<header class="mui-bar mui-bar-nav">
+            <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+            <h1 class="mui-title">新装设备</h1>
+        </header>
+        <div class="mui-content">
+            <div class="mui-content-padded" style="margin: 5px;">
+                <form class="mui-input-group">
+                    
+                    <div class="mui-input-row">
+                        <label>车牌号</label>
+                        <input type="text" class="mui-input-clear" id="platenum" data-input-clear="15" disabled="true" value="京NBU035">
+                    </div>
+
+                    <div class="mui-input-row">
+                        <label>设备编号</label>
+                        <input type="text" class="mui-input-clear" id="imei" data-input-clear="15" placeholder="请输入设备的IMEI">
+                    </div>
+                    
+                    <div class="feedback">
+                        <input type="hidden" id="image-path" value="">
+                        <p>安装图片</p>
+                        <div class="dynamic_images">  
+                            <ul>  
+                                <li><img src="images/iconfont-tianjia.png" id="addnew"></li>   
+                            </ul>  
+                        </div>  
+                    </div>
+        
+                    <div class="mui-button-row" style="clear: both;">
+                        <button id="saveBtn" type="button" class="mui-btn mui-btn-primary">确认</button>&nbsp;&nbsp;
+                        <button type="button" class="mui-btn mui-btn-danger">取消</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <script src="../js/mui.min.js"></script>
+        <script src='../js/jquery.js'></script>
+        <script>
+            var files = []; 
+            (function($, doc) {
+                mui.init({
+                    swipeBack: true //启用右滑关闭功能
+                });
+            
+                
+                document.addEventListener("plusready", plusReady, false);  
+  
+                function plusReady() {
+                    var wv = plus.webview.currentWebview();
+                    document.getElementById("addnew").addEventListener("tap", function() {  
+                        showActionSheet();//拍照还是相册  
+                    });
+                    document.getElementById("platenum").value = wv.platenum;
+                  
+                    plus.nativeUI.closeWaiting();
+                  
+                }  
+            }(mui, document));
+             
+        
+            document.getElementById("saveBtn").addEventListener('tap', function() {
+            			alert('保存')
+                   upload();
+            });
+             
+             
+            // 上传文件  
+            function upload() {  
+                
+                var platenum = document.getElementById('platenum').value;
+                var imei = document.getElementById('imei').value;
+                var task = plus.uploader.createUpload('http://192.168.1.200:8082/APPMerchant/appfileupload/appfileupload.do', {  
+                        method: "POST"  
+                    },
+                    function(t, status) { //上传完成  
+                        if (status == 200) {
+                        		console.log(t.responseText)
+                            var result =jQuery.parseJSON(t.responseText);
+                            mui.toast(result.message);  
+                              
+                        } else {  
+                            console.log("上传失败：" + status);
+                        }  
+                    }
+                );  
+            
+                for (var i = 0; i < files.length; i++) {
+                    var f = files[i]; 
+                    task.addFile(f.path, {  
+                        key:f.name
+                    });
+                    
+                   }
+                task.addData('platenum',platenum);
+                task.addData('imei',imei);
+                task.start();     
+                  
+            }  
+              
+            // 添加文件  
+            var index = 1;  
+            var newUrlAfterCompress;  
+            function appendFile(p) {  
+                files.push({ 
+                    path: p,
+                    name: "uploadkey_" + index
+                });  
+                index++;  
+            }  
+            // 产生一个随机数  
+            function getUid() {  
+                return Math.floor(Math.random() * 100000000 + 10000000).toString();  
+            }  
+              
+            
+              
+            function galleryImgs() { // 从相册中选择图片  
+                plus.gallery.pick(function(e) {  
+                    //$(".dynamic_images ul li").remove(".pickimg");  
+                    console.log("选择了"+e.files.length+"个图片");  
+                    for (var i = 0; i < e.files.length; i++) {  
+                        if (i < 9) {  
+                            $(".dynamic_images ul").prepend("<li class='pickimg'><img src='" + e.files[i] + "' /></li>");  
+                            var dstname="_downloads/"+getUid()+".jpg";//设置压缩后图片的路径  
+                            newUrlAfterCompress=compressImage(e.files[i],dstname);  
+                            appendFile(dstname);
+                        }  
+                    }  
+                }, function(e) {  
+                    console.log("取消选择图片");  
+                }, {  
+                    filter: "image",  
+                    multiple: true  
+                });  
+            }  
+              
+            //压缩图片，这个比较变态的方法，无法return  
+            function compressImage(src,dstname) {  
+                //var dstname="_downloads/"+getUid()+".jpg";  
+                plus.zip.compressImage({  
+                        src: src,  
+                        dst: dstname,  
+                        overwrite:true,  
+                        quality: 20  
+                    },  
+                    function(event) {  
+                        //console.log("Compress success:"+event.target);  
+                        return event.target;  
+                    },  
+                    function(error) {  
+                        console.log(error);  
+                        return src;  
+                        //alert("Compress error!");  
+                    });  
+                  
+            }  
+            
+              
+            function showActionSheet() {  
+                var bts = [{  
+                    title: "拍照"  
+                }, {  
+                    title: "从相册选择"  
+                }];  
+                plus.nativeUI.actionSheet({  
+                        cancel: "取消",  
+                        buttons: bts  
+                    },  
+                    function(e) {  
+                        if (e.index == 1) {  
+                            getImage();  
+                        } else if (e.index == 2) {  
+                            galleryImgs();  
+                        }  
+                    }  
+                );  
+            }  
+            //拍照  
+            function getImage() {  
+                var cmr = plus.camera.getCamera();  
+                cmr.captureImage(function(p) {  
+                    plus.io.resolveLocalFileSystemURL(p, function(entry) {  
+                        var localurl = entry.toLocalURL(); //  
+                        //$(".dynamic_images ul li").remove(".pickimg");  
+                        $(".dynamic_images ul").prepend("<li class='pickimg'><img src='" + localurl + "' /></li>");  
+                         var dstname="_downloads/"+getUid()+".jpg";//设置压缩后图片的路径  
+                            newUrlAfterCompress=compressImage(localurl,dstname);  
+                            appendFile(dstname); 
+                    });  
+                });  
+            }  
+        </script>-->
+    </body>
+</html>

@@ -1,0 +1,43 @@
+{
+	"index.html": {
+		"resources": [
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"js/update.js",
+			"js/webviewGroup.js",
+			"examples/tab-top-subpage-1.html"
+		],
+		"refer": [
+			"index-menu.html",
+			"examples/tab-top-subpage-2.html",
+			"examples/tab-top-subpage-1.html",
+			"examples/tab-top-webview-main.html",
+			"examples/progressbar.html",
+			"examples/popovers.html"
+		]
+	},
+	"examples/tab-top-subpage-2.html": {
+		"resources": [
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css"
+		]
+	},
+	"examples/tab-top-webview-main.html": {
+		"resources": [
+			"js/webviewGroup.js",
+			"examples/tab-top-subpage-1.html"
+		],
+		"refer": [
+			"examples/tab-top-subpage-1.html"
+		]
+	},
+	"examples/popovers.html": {
+		"resources": [
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css"
+		]
+	}
+}

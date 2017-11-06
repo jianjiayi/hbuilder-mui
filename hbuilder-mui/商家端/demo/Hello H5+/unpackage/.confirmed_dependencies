@@ -1,0 +1,37 @@
+{
+  "index.html": {
+    "resources": [
+      "css/common.css",
+      "js/update.js",
+      "js/shortcut.js",
+      "js/immersed.js"
+    ],
+    "refer": [
+      "plus/downloader.html",
+      "about.html",
+      "plus/oauth.html",
+      "plus/share.html"
+    ]
+  },
+  "plus/downloader.html": {
+    "resources": [
+      "js/common.js"
+    ]
+  },
+  "about.html": {
+    "resources": [
+      "js/common.js",
+      "icon.png",
+      "css/common.css",
+      "js/immersed.js"
+    ]
+  },
+  "plus/share.html": {
+    "resources": [
+      "img/add.png",
+      "js/common.js",
+      "css/common.css",
+      "js/immersed.js"
+    ]
+  }
+}

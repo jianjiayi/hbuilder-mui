@@ -1,0 +1,245 @@
+{
+	"index.html": {
+		"resources": [
+			"js/mui.min.js",
+			"css/mui.min.css",
+			"fonts/mui.ttf",
+			"src/fonts/mui.ttf",
+			"src/js/mui.min.js",
+			"src/css/mui.min.css",
+			"src/barItem/home.html",
+			"src/barItem/product.html",
+			"src/barItem/mine.html",
+			"src/css/app.css",
+			"src/images/icon/001.png",
+			"src/images/icon/04.png",
+			"src/images/icon/005.png",
+			"src/images/icon/03.png",
+			"src/images/icon/02.png",
+			"src/images/icon/01.png",
+			"src/images/icon/004.png",
+			"src/images/icon/002.png",
+			"src/images/icon/003.png",
+			"src/barItem/settlement.html",
+			"src/js/mui.poppicker.js",
+			"src/js/mui.picker.js",
+			"src/css/mui.picker.css",
+			"src/css/mui.poppicker.css"
+		],
+		"refer": [
+			"src/guide.html",
+			"src/barItem/mine.html",
+			"src/barItem/settlement.html",
+			"src/barItem/product.html",
+			"src/barItem/home.html",
+			"src/search/orderSearch.html",
+			"src/search/productSearch.html",
+			"src/product/addProduct.html"
+		]
+	},
+	"src/guide.html": {
+		"resources": [
+			"src/js/mui.min.js",
+			"src/css/mui.min.css"
+		],
+		"refer": []
+	},
+	"src/home/tab-top-subpage-1.html": {
+		"resources": [
+			"src/fonts/mui.ttf",
+			"src/js/mui.min.js",
+			"src/css/mui.min.css"
+		],
+		"refer": []
+	},
+	"src/barItem/home.html": {
+		"resources": [
+			"src/home/tab-top-subpage-1.html",
+			"src/js/webviewGroup.js",
+			"src/js/mui.min.js",
+			"src/css/app.css",
+			"src/css/mui.min.css",
+			"src/css/mui.css",
+			"src/home/tab-top-subpage-2.html",
+			"src/home/order-subpage-1.html",
+			"src/home/order-subpage-2.html"
+		],
+		"refer": [
+			"src/home/tab-top-subpage-1.html",
+			"src/home/tab-top-subpage-2.html",
+			"src/home/tab-top-subpage-3.html",
+			"src/home/tab-top-subpage-4.html",
+			"src/home/tab-top-subpage-5.html",
+			"src/home/order-subpage-2.html",
+			"src/home/order-subpage-4.html",
+			"src/home/order-subpage-3.html",
+			"src/home/order-subpage-5.html",
+			"src/home/order-subpage-1.html"
+		]
+	},
+	"src/home/tab-top-subpage-2.html": {
+		"resources": [
+			"src/fonts/mui.ttf",
+			"src/js/mui.min.js",
+			"src/css/mui.min.css"
+		],
+		"refer": []
+	},
+	"src/barItem/mine.html": {
+		"resources": [
+			"src/fonts/mui.ttf",
+			"src/js/mui.min.js",
+			"src/css/app.css",
+			"src/css/mui.min.css"
+		],
+		"refer": []
+	},
+	"src/search/orderSearch.html": {
+		"resources": [
+			"src/fonts/mui.ttf",
+			"src/js/mui.min.js",
+			"src/css/mui.min.css",
+			"src/js/rem.js",
+			"src/css/app.css",
+			"src/images/icon/005.png",
+			"src/images/icon/006.png",
+			"src/images/icon/007.png",
+			"src/js/jquery.js",
+			"src/images/001.png"
+		],
+		"refer": []
+	},
+	"src/home/order-subpage-1.html": {
+		"resources": [
+			"src/fonts/mui.ttf",
+			"src/js/mui.min.js",
+			"src/css/mui.min.css",
+			"src/js/rem.js",
+			"src/images/001.png",
+			"src/css/app.css"
+		]
+	},
+	"src/home/order-subpage-2.html": {
+		"resources": [
+			"src/js/rem.js",
+			"src/js/mui.min.js",
+			"src/css/app.css",
+			"src/css/mui.min.css",
+			"src/images/001.png",
+			"src/js/mui.poppicker.js",
+			"src/css/mui.picker.css",
+			"src/js/mui.picker.js",
+			"src/css/mui.poppicker.css"
+		]
+	},
+	"src/home/order-subpage-4.html": {
+		"resources": [
+			"src/fonts/mui.ttf",
+			"src/js/mui.min.js",
+			"src/css/mui.min.css",
+			"src/js/jquery.js"
+		]
+	},
+	"src/home/order-subpage-3.html": {
+		"refer": [
+			"src/logistics/logistics.html"
+		],
+		"resources": [
+			"src/js/rem.js",
+			"src/js/mui.min.js",
+			"src/css/app.css",
+			"src/css/mui.min.css",
+			"src/fonts/mui.ttf",
+			"src/images/001.png"
+		]
+	},
+	"src/logistics/logistics.html": {
+		"resources": [
+			"src/js/rem.js",
+			"src/js/mui.min.js",
+			"src/css/app.css",
+			"src/css/mui.min.css",
+			"src/images/icon/006.png",
+			"src/js/jquery.js"
+		]
+	},
+	"src/barItem/product.html": {
+		"resources": [
+			"src/js/rem.js",
+			"src/images/001.png",
+			"src/js/mui.min.js",
+			"src/css/app.css",
+			"src/css/mui.min.css",
+			"src/images/icon/008.png"
+		],
+		"refer": [
+			"src/product/productDetails.html"
+		]
+	},
+	"src/search/productSearch.html": {
+		"resources": [
+			"src/images/icon/006.png",
+			"src/js/jquery.js",
+			"src/images/icon/007.png",
+			"src/js/rem.js",
+			"src/js/mui.min.js",
+			"src/css/app.css",
+			"src/css/mui.min.css",
+			"src/images/001.png",
+			"src/images/icon/005.png"
+		]
+	},
+	"src/product/addProduct.html": {
+		"resources": [
+			"src/js/mui.min.js",
+			"src/css/mui.min.css",
+			"src/js/rem.js",
+			"src/css/app.css",
+			"src/images/001.png",
+			"src/images/icon/006.png",
+			"src/js/jquery.js",
+			"src/js/city.data-3.js",
+			"src/js/mui.poppicker.js",
+			"src/css/mui.picker.css",
+			"src/images/icon/010.png",
+			"src/js/mui.picker.js",
+			"src/images/icon/009.png",
+			"src/css/mui.poppicker.css",
+			"src/js/baseData.js",
+			"src/css/mui.picker.min.css",
+			"src/js/mui.picker.min.js",
+			"src/js/validate.js",
+			"src/images/icon/013.png",
+			"src/images/icon/011.png",
+			"src/images/icon/012.png",
+			"src/css/mui.previewimage.css",
+			"src/js/mui.previewimage.js",
+			"src/js/mui.zoom.js",
+			"src/images/icon/014.png"
+		]
+	},
+	"src/product/productDetails.html": {
+		"resources": [
+			"src/images/icon/006.png",
+			"src/js/jquery.js",
+			"src/js/rem.js",
+			"src/js/mui.min.js",
+			"src/css/app.css",
+			"src/css/mui.min.css",
+			"src/images/001.png",
+			"src/images/icon/010.png",
+			"src/images/icon/009.png"
+		]
+	},
+	"src/home/order-subpage-5.html": {
+		"resources": [
+			"src/js/rem.js",
+			"src/css/app.css",
+			"src/images/001.png",
+			"src/fonts/mui.ttf",
+			"src/js/mui.min.js",
+			"src/css/mui.min.css",
+			"src/js/jquery.js"
+		]
+	}
+}
